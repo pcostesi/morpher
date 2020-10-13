@@ -2,14 +2,12 @@ const EXTENDS = [
   'airbnb-typescript',
   'prettier',
   'prettier/@typescript-eslint',
-  'eslint-plugin-node',
-  'eslint-plugin-eslint-comments',
 ]
 
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'eslint-plugin-eslint-comments',],
   extends: EXTENDS,
   parserOptions: {
     project: './tsconfig.json',
@@ -26,7 +24,7 @@ module.exports = {
       env: {
         jest: true,
       },
-      plugins: ['@typescript-eslint', 'jest'],
+      plugins: ['@typescript-eslint', 'eslint-plugin-eslint-comments', 'jest'],
       extends: [...EXTENDS, 'plugin:jest/recommended'],
       rules: {
         'jest/no-disabled-tests': 'warn',

@@ -19,7 +19,8 @@
 		"gamunu.vscode-yarn",
 		"visualstudioexptteam.vscodeintellicode",
 		"esbenp.prettier-vscode",
-		"orta.vscode-jest"
+		"orta.vscode-jest",
+		"editorconfig.editorconfig"
 	]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.

@@ -7,7 +7,7 @@ import typescript from 'rollup-plugin-typescript2'
 
 const pkg = require('./package.json')
 
-const libraryName = 'boilerplate'
+const libraryName = 'morpher'
 
 export default {
   // input: `src/${libraryName}.ts`,
