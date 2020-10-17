@@ -9,7 +9,7 @@
 	},
 
 	// Set *default* container specific settings.json values on container create.
-	"settings": { 
+	"settings": {
 		"terminal.integrated.shell.linux": "/bin/bash"
 	},
 
@@ -21,10 +21,11 @@
 		"esbenp.prettier-vscode",
 		"orta.vscode-jest",
 		"editorconfig.editorconfig"
-	]
+	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+  // "forwardPorts": [],
+  "forwardPorts": [51245]
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "yarn install",
