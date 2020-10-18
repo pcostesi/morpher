@@ -9,12 +9,6 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
-    "@babel/core": "^7.12.1",
-    "@babel/preset-env": "^7.12.1",
-    "@types/acorn": "^4.0.5",
-    "@types/babel-core": "^6.25.6",
-    "@types/escodegen": "^0.0.6",
-    "@types/esprima": "^4.0.2",
     "@types/jest": "^26.0.14",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.3.0",
@@ -129,8 +123,8 @@
     "@babel/generator": "^7.12.1",
     "@babel/parser": "^7.12.2",
     "@babel/plugin-transform-modules-umd": "^7.12.1",
-    "acorn": "^8.0.4",
-    "escodegen": "^2.0.0",
-    "estree-to-babel": "^3.0.0"
+
+    "@babel/core": "^7.12.1",
+    "@babel/preset-env": "7.12.0"
   }
 }
