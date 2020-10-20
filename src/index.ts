@@ -9,12 +9,7 @@ export interface Rule {
   required?: boolean
 }
 
-export interface TransformationPayload extends Rule {
-  options?: string
-  data: any
-}
-
-export type Transformation = (opts: TransformationPayload) => any
+export type Transformation = (data: any, options: string, rule: Rule) => any
 export type AsyncTransformation = (input: any) => Promise<any>
 
 export interface MorphOptions {
@@ -22,14 +17,10 @@ export interface MorphOptions {
   registry?: {
     [_: string]: Transformation
   }
-  getter?: (subject: any, selector: string) => any
-  setter?: (subject: any, selector: string, value: any) => any
 }
 
 export const DEFAULT_OPTS: Partial<MorphOptions> = {
   registry,
-  getter,
-  setter,
 }
 
 export default class Morpher {
@@ -49,19 +40,17 @@ export default class Morpher {
       if (thing === undefined) {
         return undefined
       }
-      return transformer({ ...rule, options, data: thing })
+      return transformer(thing, options, rule)
     }
     return transformations.reduce(transform, value)
   }
 
   private applyRule(rule: Rule, input: object, output: object) {
-    const getFn = this.opts?.getter || getter
-    const setFn = this.opts?.setter || setter
-    const value = getFn(input, rule.when)
+    const value = getter(input, rule.when)
     const transformations = rule.transform ?? []
 
     const transformed = this.applyXforms(transformations, rule, value)
-    return setFn(output, rule.sink, transformed)
+    return setter(output, rule.sink, transformed)
   }
 
   apply(input: any, output?: any) {

@@ -1,6 +1,4 @@
-import { TransformationPayload } from 'index'
-
-export default function lowercase({ data }: TransformationPayload) {
+export default function lowercase(data: any) {
   if (typeof data === 'string') {
     return (data as string).toLowerCase()
   }
