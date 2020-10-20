@@ -13,30 +13,33 @@ const rules = [
     sink: 'fruit',
   },
   {
-    when: 'wasd',
+    when: 'w.a.s.d',
     transform: ['slugify', 'lowercase'],
-    sink: 'ijkl',
+    sink: 'i.j.k.l',
   },
 ]
 
 test('compiles code', async () => {
-  const code = compile({ rules }) // ?
+  const code = compile({ rules })
   expect(code).toBeTruthy()
 })
 
 test('m returns string', async () => {
   const compiled = await compile({ rules })
-  const input = {}
+  const input = { w: { a: { s: { d: 'BANANA' } } } }
   const output = {}
   const context = {
     globalThis: {} as any,
     set: setter,
     library: {
-      abc: ({ data }: { [_: string]: any }) => data,
+      abc: (data: string) => data,
+      slugify: (data: string) => data.replace(/\s+/gi, '-').toLowerCase(),
+      lowercase: (data: string) => data.toLowerCase(),
     },
   }
   const sandbox = createContext(context)
   const script = new Script(compiled!.code!, {})
   script.runInContext(sandbox, { timeout: 100 })
   expect(context.globalThis.plugin.default(input, output)).toBe(output)
+  expect(output).toEqual({ i: { j: { k: { l: 'banana' } } } })
 })

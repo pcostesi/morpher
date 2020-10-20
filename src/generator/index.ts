@@ -5,6 +5,13 @@ function compileGet(selector: string, input = 'input') {
   return `${input}?.${parts.join('?.')}`
 }
 
+function compileSetPath(selector: string, index: number) {
+  const parts = selector.split('.')
+  return `
+  const setpath${index} = Object.freeze(${JSON.stringify(parts)})
+  `
+}
+
 function transformsToFnCall(rule: Rule, index: number) {
   return (rule.transform || [])
     .map((transformation: string, tidx: number) => {
@@ -32,7 +39,7 @@ function ruleToTransform(rule: Rule, index: number) {
     ${transformsToFnCall(rule, index)}
     break
   }
-  set(output, ${JSON.stringify(rule.sink)}, value${index})
+  set(setpath${index}, output, value${index})
 
   `
 }
@@ -46,9 +53,37 @@ function injectRules(rules: Rule[]) {
     .join('\n')
 }
 
+function injectSetters(rules: Rule[]) {
+  return `
+  function set(selector, base, value) {
+    let parent = base
+    let idx = 0
+    if (value === undefined) {
+      return base
+    }
+    while (selector.length - 1 > idx) {
+      const label = selector[idx]
+      if (parent === undefined) {
+        return base
+      }
+      if (!parent[label]) {
+        parent[label] = {}
+      }
+      parent = parent[label]
+      idx += 1
+    }
+    parent[selector[selector.length - 1]] = value
+    return base
+  }
+  ${rules.map((rule, idx) => compileSetPath(rule.sink, idx)).join('\n')}
+  `
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function preamble(opts: MorphOptions) {
   return `
+
+    ${injectSetters(opts.rules)}
     ${injectRules(opts.rules)}
   `
 }
@@ -58,7 +93,7 @@ export default function generate(opts: MorphOptions) {
 
   return `
   ${preamble(opts)}
-  export default function matcher(input, output = {}, library = {}) {
+  export default function matcher(input, output = {}) {
     if (input === undefined) {
       return output
     }
