@@ -53,9 +53,10 @@ export default class Morpher {
     return setter(output, rule.sink, transformed)
   }
 
-  apply(input: any, output?: any) {
+  apply(input: any) {
+    const output = {}
     const handler = (obj: any, rule: Rule) => this.applyRule(rule, input, obj)
 
-    return this.opts.rules.reduce(handler, output ?? {})
+    return this.opts.rules.reduce(handler, output)
   }
 }

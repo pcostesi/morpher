@@ -8,11 +8,10 @@ describe('Morph', () => {
       rules: [],
     }
     const morpher = new Morpher(opts)
-    expect(morpher.apply(input, output)).toEqual(output)
+    expect(morpher.apply(input)).toEqual(output)
   })
 
   it('lowercases the fruit', () => {
-    const output = {}
     const input = {
       fruit: 'BANANA',
     }
@@ -29,11 +28,10 @@ describe('Morph', () => {
       ],
     }
     const morpher = new Morpher(opts)
-    expect(morpher.apply(input, output)).toEqual(expected)
+    expect(morpher.apply(input)).toEqual(expected)
   })
 
   it('throws error on missing transformation', () => {
-    const output = {}
     const input = {}
     const opts: MorphOptions = {
       rules: [
@@ -46,12 +44,11 @@ describe('Morph', () => {
     }
     const morpher = new Morpher(opts)
     expect(() => {
-      morpher.apply(input, output)
+      morpher.apply(input)
     }).toThrowError('Missing transformation <missing>')
   })
 
   it('skips missing property', () => {
-    const output = {}
     const input = {}
     const opts: MorphOptions = {
       rules: [
@@ -63,11 +60,10 @@ describe('Morph', () => {
       ],
     }
     const morpher = new Morpher(opts)
-    expect(morpher.apply(input, output)).toHaveProperty('fruit', undefined)
+    expect(morpher.apply(input)).toHaveProperty('fruit', undefined)
   })
 
   it('works composing functions', () => {
-    const output = {}
     const input = { fruit: 'Banana' }
     const opts: MorphOptions = {
       rules: [
@@ -79,7 +75,7 @@ describe('Morph', () => {
       ],
     }
     const morpher = new Morpher(opts)
-    const result = morpher.apply(input, output)
+    const result = morpher.apply(input)
     expect(result).toEqual({ fruit: 'banana' })
   })
 })

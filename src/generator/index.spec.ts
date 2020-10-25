@@ -9,11 +9,11 @@ const rules = [
   {
     when: 'wasd',
     transform: ['slugify', 'lowercase'],
-    sink: 'ijkl',
+    sink: 'i.j.k.l',
   },
 ]
 
 test('generates code', async () => {
-  const code = generate({ rules }) // ?
+  const code = generate({ rules })
   expect(code).toBeTruthy()
 })
